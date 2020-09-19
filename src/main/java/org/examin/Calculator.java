@@ -53,10 +53,12 @@ public class Calculator {
 		int postiveNumsTotalSum = 0;
 		StringBuilder negString = new StringBuilder();
 		for (String number : numbers) {
-			if (Integer.parseInt(number) < 0) {
+			int currNum = Integer.parseInt(number);
+			if (currNum < 0) {
 				negString.append("," + number);
-			} else {
-				postiveNumsTotalSum += Integer.parseInt(number);
+			}
+			if (currNum < 1000) {
+				postiveNumsTotalSum += currNum;
 			}
 		}
 		if (negString.length() > 0) {

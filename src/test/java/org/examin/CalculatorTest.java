@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CalculatorTest {
 	Calculator calculator = new Calculator();
+
 	@Test
 	public void testEmptyString() {
 		assertEquals(0, calculator.add(""));
@@ -24,5 +25,10 @@ public class CalculatorTest {
 	@Test
 	public void testThreeNumbers() {
 		assertEquals(6, calculator.add("1,2,3"));
+	}
+
+	@Test
+	public void testLongLengOfNumbers() {
+		assertEquals(3027, calculator.add("1,2,3,6,774,654,45,344,5,34,53,54,45,23,54,34,5,345,3,543"));
 	}
 }

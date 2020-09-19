@@ -31,4 +31,10 @@ public class CalculatorTest {
 	public void testLongLengOfNumbers() {
 		assertEquals(3027, calculator.add("1,2,3,6,774,654,45,344,5,34,53,54,45,23,54,34,5,345,3,543"));
 	}
+
+	@Test
+	public void testNewLine(){
+		assertEquals(6, calculator.add("1\n2,3"));
+	}
+
 }

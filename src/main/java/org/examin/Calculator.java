@@ -4,7 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator {
-	private static String regex = "\\/\\/(.)\\n(.*)";
+	private static String oneCharDelimtedRegex = "\\/\\/(.)\\n(.*)";
+	private static String longLenDelimitedRegex = "\\/\\/\\[(.+)\\]\\n(.*)";
 	private static String defaultDelimiter = ",";
 
 	public int add(String text) {
@@ -13,36 +14,47 @@ public class Calculator {
 		} else {
 			String delimiter = defaultDelimiter;
 			String inputNumList = text;
-			if (text.matches(regex)) {
+			if (text.matches(oneCharDelimtedRegex) || text.matches(longLenDelimitedRegex)) {
 				delimiter = extractDelimterFromInput(text);
 				inputNumList = extractNumString(text);
 			}
-			inputNumList = replaceCommonDelimiters(inputNumList);
-			String numList[] = splitNumbers(inputNumList, delimiter);
+			inputNumList = replaceDelimiterWithComma(inputNumList,delimiter);
+			String numList[] = splitNumbers(inputNumList, ",");
 			return sum(numList);
 		}
 	}
 
 	private String extractNumString(String text) {
-		Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-		Matcher matcher = pattern.matcher(text);
-		if (matcher.find()) {
-			return matcher.group(2);
+		Pattern oneCharDelimtedPattern = Pattern.compile(oneCharDelimtedRegex, Pattern.MULTILINE);
+		Matcher oneCharDelimtedMatcher = oneCharDelimtedPattern.matcher(text);
+		if (oneCharDelimtedMatcher.find()) {
+			return oneCharDelimtedMatcher.group(2);
+		}
+		Pattern longLenDelimitedPattern = Pattern.compile(longLenDelimitedRegex, Pattern.MULTILINE);
+		Matcher longLenDelimitedMatcher= longLenDelimitedPattern.matcher(text);
+		if(longLenDelimitedMatcher.find()){
+			return longLenDelimitedMatcher.group(2);
 		}
 		return "";
 	}
 
 	private String extractDelimterFromInput(String text) {
-		Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-		Matcher matcher = pattern.matcher(text);
-		if (matcher.find()) {
-			return matcher.group(1);
+		Pattern oneCharDelimtedPattern = Pattern.compile(oneCharDelimtedRegex, Pattern.MULTILINE);
+		Matcher oneCharDelimtedMatcher = oneCharDelimtedPattern.matcher(text);
+		if (oneCharDelimtedMatcher.find()) {
+			return oneCharDelimtedMatcher.group(1);
+		}
+		Pattern longLenDelimitedPattern = Pattern.compile(longLenDelimitedRegex, Pattern.MULTILINE);
+		Matcher longLenDelimitedMatcher= longLenDelimitedPattern.matcher(text);
+		if(longLenDelimitedMatcher.find()){
+			return longLenDelimitedMatcher.group(1);
 		}
 		return "";
 	}
 
-	private String replaceCommonDelimiters(String text) {
-		return text.replaceAll("\n", ",");
+	private String replaceDelimiterWithComma(String text, String delimiter) {
+		return text.replace("\n", ",")
+				.replace(delimiter,",");
 	}
 
 	private static String[] splitNumbers(String numbers, String splitter) {

@@ -67,4 +67,9 @@ public class CalculatorTest {
 		assertEquals(6, calculator.add("1001,2,4,100001"));
 	}
 
+	@Test
+	public void testLongLenDelimiter() {
+		assertEquals(6, calculator.add("//[***]\n1***2***3"));
+	}
+
 }

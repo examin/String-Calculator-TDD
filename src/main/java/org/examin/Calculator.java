@@ -13,7 +13,7 @@ public class Calculator {
 		} else {
 			String delimiter = defaultDelimiter;
 			String inputNumList = text;
-			if(text.matches(regex)){
+			if (text.matches(regex)) {
 				delimiter = extractDelimterFromInput(text);
 				inputNumList = extractNumString(text);
 			}
@@ -26,7 +26,7 @@ public class Calculator {
 	private String extractNumString(String text) {
 		Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		Matcher matcher = pattern.matcher(text);
-		if(matcher.find()){
+		if (matcher.find()) {
 			return matcher.group(2);
 		}
 		return "";
@@ -35,7 +35,7 @@ public class Calculator {
 	private String extractDelimterFromInput(String text) {
 		Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		Matcher matcher = pattern.matcher(text);
-		if(matcher.find()){
+		if (matcher.find()) {
 			return matcher.group(1);
 		}
 		return "";
@@ -50,10 +50,18 @@ public class Calculator {
 	}
 
 	private static int sum(String[] numbers) {
-		int total = 0;
+		int postiveNumsTotalSum = 0;
+		StringBuilder negString = new StringBuilder();
 		for (String number : numbers) {
-			total += Integer.parseInt(number);
+			if (Integer.parseInt(number) < 0) {
+				negString.append("," + number);
+			} else {
+				postiveNumsTotalSum += Integer.parseInt(number);
+			}
 		}
-		return total;
+		if (negString.length() > 0) {
+			throw new IllegalArgumentException("Negatives not allowed: " + negString.substring(1));
+		}
+		return postiveNumsTotalSum;
 	}
 }

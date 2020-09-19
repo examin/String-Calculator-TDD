@@ -6,10 +6,16 @@ public class Calculator {
 			return 0;
 		}
 		else{
+			text = replaceOtherDelimiters(text);
 			String numList[] = splitNumbers(text, ",");
 			return sum(numList);
 		}
 	}
+
+	private String replaceOtherDelimiters(String text) {
+		return text.replaceAll("\n", ",");
+	}
+
 	private static String[] splitNumbers(String numbers, String splitter){
 		return numbers.split(splitter);
 	}
